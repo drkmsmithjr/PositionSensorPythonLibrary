@@ -24,6 +24,7 @@ IO4_DOUT = 14
 
 
 
+
 class PositionSensor():
 
     def __init__(self,partnumber = 'LX3302A', protocal = 'SENT', pin = 'IO3'):
@@ -55,22 +56,23 @@ class PositionSensor():
         
         # start the thread to sample output depending on the output 
         if protocal == 'SENT':
+            print("SENT protocol")
             self.OutputSampleThread = threading.Thread(target = self.SENTSample, args = (self.Arg1,self.Arg2))
         elif protocal == 'PWM':
+            print("PWM protocol")
             self.OutputSampleThread = threading.Thread(target = self.PWMSample, args = (self.Arg1,self.Arg2))
         self.OutputSampleThread.daemon = True 
         self.OutputSampleThread.start()
               
 
     def SENTSample(self,Arg1,Arg2):
-        
+        # at this time, the SENT solution does not seem to work
         # this will run in a loop and sample the SENT path 
         while True:
            # read the Status nibble
-		   # read three data nibbles - 12bit data
-		   # ready three data nibbles - 12bit data repeated
-		   # read the CRC code 
-            print("inside SENTPWM")
+           # measure the pulse width of each period
+           self.DetectNibble(Arg1)
+           
 		   
    
     def PWMSample(self,Arg1,Arg2):
@@ -106,21 +108,41 @@ class PositionSensor():
 			# duty ratio with two digits
             self.data = (math.floor(PulseWidth/ClockPeriod*10000+.5))/100.0			
 		                
-    def Get_Data(self):
-         
+    def Get_Data(self):        
         return self.data 
 
     def Get_Freq(self):
-         
         return self.PWMFreq 		
+
+    def DetectNibble(self,Arg1,ClockTick = .000024):
+        # this will detect the NibbleType
+        # we assume that the input is zero voltage
+        INPUT = GPIO.input(Arg1)
+        while INPUT == True:
+            INPUT = GPIO.input(Arg1)
+
+        while INPUT == False:
+            INPUT = GPIO.input(Arg1)
+	    PulseRiseEdge = time.time()
+
+	while INPUT == True:
+            INPUT = GPIO.input(Arg1)
+            PulseFallEdge = time.time()
+
+        Value = math.floor((PulseFallEdge - PulseRiseEdge)/ClockTick+.5)-7 
+        self.data = Value
+        return Value
+
 		
 		
   
 if __name__ == "__main__":
         print "hello world"
-        x = PositionSensor('LX3302A','PWM','IO2')
+        #x = PositionSensor('LX3302A','SENT','IO3')
+        y = PositionSensor('LX3302A','PWM','IO2')
         
         while True:
-            print("Duty Ration: %s    Frequency: %s" % (int(x.Get_Data()),int(x.Get_Freq())))
+            #print("Nibble Value: %s " % int(x.Get_Data()))
+            print("Duty Ration: %s    Frequency: %s" % (int(y.Get_Data()),int(y.Get_Freq())))            
             time.sleep(.01)
            
