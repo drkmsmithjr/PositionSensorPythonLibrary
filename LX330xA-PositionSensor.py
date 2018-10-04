@@ -134,8 +134,10 @@ class PositionSensor():
             self.PWMFreq = math.floor(1/ClockPeriod+.5)
             
             PulseWidth = PulseFallEdge - PulseRiseEdge
+            # filtering outlier frequency data 
+            tempval = (math.floor(PulseWidth/ClockPeriod*10000+.5))/100.0
             if abs(1.0*self.PWMFreq/lastPWMFreq -1)< outliers:
-               tempval = (math.floor(PulseWidth/ClockPeriod*10000+.5))/100.0
+               # filter out values great than a certain amount.              
                if abs(1.0*tempval/tempval2 - 1) < outliers:
                   LPF.pop()
                   LPF.insert(0,tempval)
@@ -144,10 +146,7 @@ class PositionSensor():
                   for x in LPF:
                      tempval2 += (1.0/indexval)*x
                   self.data = tempval2
-               tempval2 = tempval
-            #else:
-            #   tempval = tempval2
-
+            tempval2 = tempval
             lastPWMFreq = self.PWMFreq
                # duty ratio with two digits
             #tempval = (math.floor(PulseWidth/ClockPeriod*10000+.5))/100.0
