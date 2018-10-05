@@ -108,7 +108,7 @@ class PositionSensor():
         PWMFreq = 0
 
         # low pass filter 10 taps
-        LPF = [0]*10
+        LPF = [0]*4
         tempval = 0
         tempval2 = 1
         lastPWMFreq = 1
