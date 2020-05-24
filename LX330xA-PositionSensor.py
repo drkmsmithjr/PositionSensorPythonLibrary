@@ -20,7 +20,7 @@ PWW = 'PWM'
 # BCM GPIO pins to connect to the Sensor 
 IO1 = 23
 IO2 = 18
-IO3_AOUT = 15
+IO3_AOUT = 24
 IO4_DOUT = 14
 
 
@@ -187,10 +187,10 @@ if __name__ == "__main__":
          x = PositionSensor('LX3302A','SENT','IO3')
          Type = 'SENT'
       else:
-         x = PositionSensor('LX3302A','PWM','IO2')
+         x = PositionSensor('LX3302A','PWM','IO3')
          Type = 'PWM'
    else:
-      x = PositionSensor('LX3302A','PWM','IO2')
+      x = PositionSensor('LX3302A','PWM','IO3')
       Type = 'PWM'
 
    print "hello world"
@@ -200,5 +200,5 @@ if __name__ == "__main__":
          print("Start Lenth: %s Status: %s Data1: %s-%s-%s Data2: %s-%s-%s CRC: %s " % (int(x.Get_Data()),int(x.status),int(x.chan1),int(x.chan2),int(x.chan3),int(x.chan4),int(x.chan5),int(x.chan6),int(x.crc)))
       else:
          print("Duty Ration: %s    Frequency: %s" % (int(x.Get_Data()),int(x.Get_Freq())))            
-      time.sleep(.01)
+      time.sleep(1)
            
