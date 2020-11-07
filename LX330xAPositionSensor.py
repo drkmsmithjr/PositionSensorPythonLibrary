@@ -107,12 +107,12 @@ class PositionSensor():
         PWMDuty = 0
         PWMFreq = 0
 
-        # low pass filter 10 taps
-        LPF = [0]*4
+        # low pass filter taps
+        LPF = [0]*100
         tempval = 0
         tempval2 = 1
         lastPWMFreq = 1
-        outliers = 0.05
+        outliers = 0.04
 
 
         while True:
@@ -156,7 +156,11 @@ class PositionSensor():
         return self.data 
 
     def Get_Freq(self):
-        return self.PWMFreq 		
+        return self.PWMFreq 
+
+    def Quit(self):
+        #self.OutputSampleThread.join()  			
+        print("Inside Quit")
 
     def DetectNibble(self,Arg1,ClockTick = .000024):
         # this will detect the NibbleType
@@ -169,7 +173,7 @@ class PositionSensor():
             INPUT = GPIO.input(Arg1)
         PulseRiseEdge = time.time()
 
-	while INPUT == True:
+        while INPUT == True:
             INPUT = GPIO.input(Arg1)
         PulseFallEdge = time.time()
 
