@@ -204,5 +204,5 @@ if __name__ == "__main__":
          print("Start Lenth: %s Status: %s Data1: %s-%s-%s Data2: %s-%s-%s CRC: %s " % (int(x.Get_Data()),int(x.status),int(x.chan1),int(x.chan2),int(x.chan3),int(x.chan4),int(x.chan5),int(x.chan6),int(x.crc)))
       else:
          print("Duty Ration: %s    Frequency: %s" % (int(x.Get_Data()),int(x.Get_Freq())))            
-      time.sleep(1)
+      time.sleep(.1)
            
