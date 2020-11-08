@@ -84,13 +84,13 @@ class PositionSensor():
            while self.data > 40:
               # get status nibble
               self.status = self.DetectNibble(Arg1)
-              self.chan1 = self.DetectNibble(Arg1)
-              self.chan2 = self.DetectNibble(Arg1)
-              self.chan3 = self.DetectNibble(Arg1)
-              self.chan4 = self.DetectNibble(Arg1)
-              self.chan5 = self.DetectNibble(Arg1)
-              self.chan6 = self.DetectNibble(Arg1)
-              self.crc = self.DetectNibble(Arg1)           
+              self.chan1  = self.DetectNibble(Arg1)
+              self.chan2  = self.DetectNibble(Arg1)
+              self.chan3  = self.DetectNibble(Arg1)
+              self.chan4  = self.DetectNibble(Arg1)
+              self.chan5  = self.DetectNibble(Arg1)
+              self.chan6  = self.DetectNibble(Arg1)
+              self.crc    = self.DetectNibble(Arg1)           
 	   
     def PWMSample(self,Arg1,Arg2):
         
