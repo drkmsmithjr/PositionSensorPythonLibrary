@@ -172,7 +172,7 @@ class PositionSensor():
         PulseFallEdge = []
         PulseRiseEdge = []
 
-        NumInterations = 15
+        NumInterations = 30
 
         # avoiding a partial period
         INPUT = GPIO.input(Arg1)
@@ -251,13 +251,14 @@ class PositionSensor():
                 CRC.append(y)
             if x%9 == 8:
                 pulse.append(y)
+
             #pulse.append((PulseFallEdge[x+1]-PulseRiseEdge[x])/ClockTick)
         #print("PulseFallEdge: %s" % PulseFallEdge)
         #print("PulseRiseEdge: %s" % PulseRiseEdge)
         #print("pulse:         %s" % pulse)
         if len(pulse) > 0:
            syncpulse = st.median(pulse)
-           tick = 51.0 / 56
+           tick = 51/56
            statuspulse = math.floor((st.median(status)-12*tick)*100+.5)/100
            data1pulse =  math.floor((st.median(data1)-12*tick)*100+.5)/100
            data2pulse =  math.floor((st.median(data2)-12*tick)*100+.5)/100
@@ -275,6 +276,34 @@ class PositionSensor():
            print("data5:  %s %s  " % (data5pulse, data5))
            print("data6:  %s %s  " % (data6pulse, data6))
            print("  CRC:  %s %s  " % (CRCpulse, CRC))
+
+        for x in range (0,NumInterations):
+            tick = 51/56.0
+            status[x] = math.floor((status[x]-12*tick)+0.5)
+            nib1 = int(math.floor((data1[x]-12*tick)+0.5))
+            nib2 = int(math.floor((data2[x]-12*tick)+0.5))
+            nib3 = int(math.floor((data3[x]-12*tick)+0.5))
+
+            nib4 = int(math.floor((data4[x]-12*tick)+0.5))
+            nib5 = int(math.floor((data5[x]-12*tick)+0.5))
+            nib6 = int(math.floor((data6[x]-12*tick)+0.5))
+            print(str(nib1)+str(nib2)+str(nib3)+" "+str(nib4)+str(nib5)+str(nib6))
+            nibCRC = math.floor((CRC[x]  -12*tick)+0.5)
+            data1[x] = nib1
+            data2[x] = nib2
+            data3[x] = nib3
+            data4[x] = nib4
+            data5[x] = nib5
+            data6[x] = nib6
+            CRC[x]   = nibCRC
+        print(pulse)
+        print(status)
+        print(data1)
+        print(data2)
+        print(data3)
+        print(data4)
+        print(data5)
+        print(data6)
 
 
         #self.data = Value
