@@ -57,7 +57,7 @@ class PositionSensor():
         else:
            return 0
 
-    def SENTD(self):
+    def dataSENT(self):
         if self.protocol == 'SENT':
             # only return the first data
             return self.SENT.SENTData()[0]
@@ -90,6 +90,5 @@ if __name__ == "__main__":
    y = PositionSensor('LX3302A','PWM','IO3')
 
    while True:
-         print(x.SENTD(), round(x.SENTD()/4096.0*100,2))
-         print("Duty Ratio: %s SENT_duty: %s Frequency: %s SENT: %s " % (round(y.DutyRatio(),2),(round(x.SENTD()/4096.0*100,2)),round(y.PWMFreq(),2),x.SENTD()))
+         print("Duty Ratio: %s SENT_duty: %s PWM Frequency: %s SENT: %s " % (round(y.DutyRatio(),2),(round(x.dataSENT()/4096.0*100,2)),round(y.PWMFreq(),2),x.dataSENT()))
          time.sleep(0.1)
