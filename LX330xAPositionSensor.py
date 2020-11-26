@@ -60,7 +60,7 @@ class PositionSensor():
     def dataSENT(self):
         if self.protocol == 'SENT':
             # only return the first data
-            return self.SENT.SENTData()[0]
+            return self.SENT.dataField1()
 
     def PWMFreq(self):
         if self.protocol == 'PWM':
@@ -87,8 +87,9 @@ if __name__ == "__main__":
 
    # read two outptus from the LX3302A, both IO2 and IO3 as follows:
    x = PositionSensor('LX3302A','SENT','IO2')
-   y = PositionSensor('LX3302A','PWM','IO3')
+   #y = PositionSensor('LX3302A','PWM','IO3')
 
    while True:
-         print("Duty Ratio: %s SENT_duty: %s PWM Frequency: %s SENT: %s " % (round(y.DutyRatio(),2),(round(x.dataSENT()/4096.0*100,2)),round(y.PWMFreq(),2),x.dataSENT()))
+         #print("Duty Ratio: %s SENT_duty: %s PWM Frequency: %s SENT: %s " % (round(y.DutyRatio(),2),(round(x.dataSENT()/4096.0*100,2)),round(y.PWMFreq(),2),x.dataSENT()))
+         print("SENT_duty: %s SENT: %s " % ((round(x.dataSENT()/4096.0*100,2)),x.dataSENT()))
          time.sleep(0.1)
